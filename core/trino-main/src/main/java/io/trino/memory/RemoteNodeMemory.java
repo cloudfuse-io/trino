@@ -28,7 +28,6 @@ import javax.annotation.Nullable;
 import javax.annotation.concurrent.ThreadSafe;
 
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.Optional;
 import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicLong;
@@ -64,12 +63,7 @@ public class RemoteNodeMemory
     {
         this.node = requireNonNull(node, "node is null");
         this.httpClient = requireNonNull(httpClient, "httpClient is null");
-        try {
-            this.memoryInfoUri = new URI("http", null, "localhost", 8080, null, null, null);
-        }
-        catch (URISyntaxException e) {
-            throw new IllegalArgumentException(e);
-        }
+        this.memoryInfoUri = requireNonNull(memoryInfoUri, "memoryInfoUri is null");
         this.memoryInfoCodec = requireNonNull(memoryInfoCodec, "memoryInfoCodec is null");
     }
 

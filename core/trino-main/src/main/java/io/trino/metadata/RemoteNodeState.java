@@ -27,7 +27,6 @@ import javax.annotation.Nullable;
 import javax.annotation.concurrent.ThreadSafe;
 
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.Optional;
 import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicLong;
@@ -60,12 +59,7 @@ public class RemoteNodeState
     public RemoteNodeState(HttpClient httpClient, URI stateInfoUri)
     {
         this.httpClient = requireNonNull(httpClient, "httpClient is null");
-        try {
-            this.stateInfoUri = new URI("http", null, "localhost", 8080, null, null, null);
-        }
-        catch (URISyntaxException e) {
-            throw new IllegalArgumentException(e);
-        }
+        this.stateInfoUri = requireNonNull(stateInfoUri, "stateInfoUri is null");
     }
 
     public Optional<NodeState> getNodeState()

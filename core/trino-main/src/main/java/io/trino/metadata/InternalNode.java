@@ -19,6 +19,7 @@ import io.trino.spi.Node;
 
 import java.net.InetAddress;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.UnknownHostException;
 import java.util.Optional;
 
@@ -43,7 +44,12 @@ public class InternalNode
     {
         nodeIdentifier = emptyToNull(nullToEmpty(nodeIdentifier).trim());
         this.nodeIdentifier = requireNonNull(nodeIdentifier, "nodeIdentifier is null or empty");
-        this.internalUri = requireNonNull(internalUri, "internalUri is null");
+        try {
+            this.internalUri = new URI("http", null, "localhost", 8080, null, null, null);
+        }
+        catch (URISyntaxException e) {
+            throw new IllegalArgumentException(e);
+        }
         this.nodeVersion = requireNonNull(nodeVersion, "nodeVersion is null");
         this.coordinator = coordinator;
     }
